@@ -28,6 +28,27 @@ function App() {
     setWindowOrder((prev) => [...prev.filter((x) => x !== id), id]);
   }
 
+  function handleClose(id: string) {
+    setWindows((prev) => prev.filter((w) => w.id !== id));
+    setWindowOrder((prev) => prev.filter((x) => x !== id));
+  }
+
+  function handleAddWindow(title: string) {
+    const id = crypto.randomUUID();
+    setWindows((prev) => [
+      ...prev,
+      {
+        id,
+        pos: {
+          x: 120,
+          y: 100,
+        },
+        title,
+      },
+    ]);
+    setWindowOrder((prev) => [...prev, id]);
+  }
+
   return (
     <>
       <div style={{ position: "relative", width: "100vw", height: "100vh" }}>
@@ -38,6 +59,7 @@ function App() {
             title={window.title}
             onMove={handleMove}
             onFocus={handleFocus}
+            onClose={handleClose}
             pos={window.pos}
             children=<></>
             zIndex={windowOrder.indexOf(window.id)}

@@ -6,6 +6,7 @@ type WindowProps = {
   pos: { x: number; y: number };
   onMove: (id: string, pos: { x: number; y: number }) => void;
   onFocus: (id: string) => void;
+  onClose: (id: string) => void;
   children: React.ReactNode;
   zIndex: number;
 };
@@ -16,6 +17,7 @@ export default function Window({
   pos,
   onMove,
   onFocus,
+  onClose,
   children,
   zIndex,
 }: WindowProps) {
@@ -47,6 +49,7 @@ export default function Window({
   }
 
   function handleCloseWindow() {
+    onClose(id);
     setIsOpen(false);
   }
 
