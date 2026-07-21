@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Window from "./Window";
-import { type App as AppType } from "./apps";
+import { APPS, type App as AppType } from "./apps";
 
 import "./App.css";
 import Desktop from "./Desktop";
@@ -24,22 +24,15 @@ const SIZE_DEFAULT = {
 
 function App() {
   const [windows, setWindows] = useState<WindowState[]>([
-    { id: "w1", title: "One", pos: { x: 40, y: 40 }, size: { w: 400, h: 200 } },
     {
-      id: "w2",
-      title: "Two",
-      pos: { x: 120, y: 100 },
-      size: { w: 300, h: 100 },
-    },
-    {
-      id: "w3",
-      title: "Three",
-      pos: { x: 200, y: 160 },
-      size: { w: 350, h: 150 },
+      id: APPS[0].id,
+      title: APPS[0].title,
+      pos: { x: 40, y: 40 },
+      size: { w: 400, h: 200 },
     },
   ]);
 
-  const [windowOrder, setWindowOrder] = useState<string[]>(["w1", "w2", "w3"]); // last item in array is displayed on top
+  const [windowOrder, setWindowOrder] = useState<string[]>([APPS[0].id]); // last item in array is displayed on top
 
   function handleMove(id: string, pos: { x: number; y: number }) {
     setWindows((prev) => {
@@ -85,6 +78,12 @@ function App() {
     });
   }
 
+  function getWindowComponent(id: string): React.ComponentType {
+    const app = APPS.find((app) => app.id === id);
+    if (!app) throw new Error("App not found");
+    return app.component;
+  }
+
   return (
     <>
       <div
@@ -96,21 +95,25 @@ function App() {
         }}
       >
         <Desktop onOpenApp={handleOpenApp} />
-        {windows.map((window) => (
-          <Window
-            id={window.id}
-            key={window.id}
-            title={window.title}
-            onMove={handleMove}
-            onFocus={handleFocus}
-            onClose={handleClose}
-            onResize={handleResize}
-            pos={window.pos}
-            size={window.size}
-            children=<></>
-            zIndex={windowOrder.indexOf(window.id)}
-          />
-        ))}
+        {windows.map((window) => {
+          const AppComponent = getWindowComponent(window.id);
+          return (
+            <Window
+              id={window.id}
+              key={window.id}
+              title={window.title}
+              onMove={handleMove}
+              onFocus={handleFocus}
+              onClose={handleClose}
+              onResize={handleResize}
+              pos={window.pos}
+              size={window.size}
+              zIndex={windowOrder.indexOf(window.id)}
+            >
+              <AppComponent />
+            </Window>
+          );
+        })}
       </div>
     </>
   );
