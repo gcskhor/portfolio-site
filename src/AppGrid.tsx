@@ -12,7 +12,8 @@ export default function AppGrid({
     <div
       style={{
         display: "grid",
-        height: "100vh",
+        height: "100%",
+        width: "100%",
         gap: "16px",
         justifyContent: "start",
         gridAutoFlow: "column",

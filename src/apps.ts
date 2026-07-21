@@ -5,7 +5,10 @@ import Portfolio from "./apps/Portfolio";
 export type App = {
   title: string;
   id: string;
-  component: React.ComponentType;
+  component: React.ComponentType<{
+    app: App;
+    onOpenApp: (app: App) => void;
+  }>;
   icon: string;
   containsApps?: App[];
 };
@@ -23,7 +26,16 @@ export const APPS: App[] = [
     icon: "📁",
     containsApps: [
       { title: "Maps", id: "maps", component: AboutMe, icon: "🗺️" },
-      { title: "Clock", id: "clock", component: Portfolio, icon: "⏰" },
+      {
+        title: "Projects1",
+        id: "projects1",
+        component: Folder,
+        icon: "📁",
+        containsApps: [
+          { title: "Maps2", id: "maps2", component: AboutMe, icon: "🗺️" },
+          { title: "Clock", id: "clock", component: Portfolio, icon: "⏰" },
+        ],
+      },
     ],
   },
 ];

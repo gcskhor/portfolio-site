@@ -91,10 +91,10 @@ function App() {
     });
   }
 
-  function getWindowComponent(id: string): React.ComponentType {
+  function getApp(id: string): AppType {
     const app = APP_REGISTRY[id];
     if (!app) throw new Error("App not found");
-    return app.component;
+    return app;
   }
 
   return (
@@ -109,7 +109,8 @@ function App() {
       >
         <AppGrid apps={APPS} onOpenApp={handleOpenApp} />
         {windows.map((window) => {
-          const AppComponent = getWindowComponent(window.id);
+          const app = getApp(window.id);
+          const AppComponent = app.component;
           return (
             <Window
               id={window.id}
@@ -123,7 +124,7 @@ function App() {
               size={window.size}
               zIndex={windowOrder.indexOf(window.id)}
             >
-              <AppComponent />
+              <AppComponent app={app} onOpenApp={handleOpenApp} />
             </Window>
           );
         })}
