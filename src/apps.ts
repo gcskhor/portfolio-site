@@ -1,4 +1,5 @@
 import AboutMe from "./apps/AboutMe";
+import Folder from "./apps/Folder";
 import Portfolio from "./apps/Portfolio";
 
 export type App = {
@@ -6,6 +7,7 @@ export type App = {
   id: string;
   component: React.ComponentType;
   icon: string;
+  containsApps?: App[];
 };
 
 export const APPS: App[] = [
@@ -14,19 +16,30 @@ export const APPS: App[] = [
   { title: "Terminal", id: "term", component: AboutMe, icon: "🖥️" },
   { title: "Files", id: "files", component: Portfolio, icon: "📁" },
   { title: "Browser", id: "browser", component: AboutMe, icon: "🌐" },
-  { title: "Mail", id: "mail", component: Portfolio, icon: "✉️" },
-  { title: "Calendar", id: "cal", component: AboutMe, icon: "📅" },
-  { title: "Notes", id: "notes", component: Portfolio, icon: "📝" },
-  { title: "Music", id: "music", component: AboutMe, icon: "🎵" },
-  { title: "Photos", id: "photos", component: Portfolio, icon: "🖼️" },
-  { title: "Camera", id: "cam", component: AboutMe, icon: "📷" },
-  { title: "Settings", id: "settings", component: Portfolio, icon: "⚙️" },
-  { title: "Calculator", id: "calc", component: AboutMe, icon: "🧮" },
-  { title: "Weather", id: "weather", component: Portfolio, icon: "⛅" },
-  { title: "Maps", id: "maps", component: AboutMe, icon: "🗺️" },
-  { title: "Clock", id: "clock", component: Portfolio, icon: "⏰" },
-  { title: "Games", id: "games", component: AboutMe, icon: "🎮" },
-  { title: "Contacts", id: "contacts", component: Portfolio, icon: "👥" },
-  { title: "Store", id: "store", component: AboutMe, icon: "🛍️" },
-  { title: "Trash", id: "trash", component: Portfolio, icon: "🗑️" },
+  {
+    title: "Projects",
+    id: "projects",
+    component: Folder,
+    icon: "📁",
+    containsApps: [
+      { title: "Maps", id: "maps", component: AboutMe, icon: "🗺️" },
+      { title: "Clock", id: "clock", component: Portfolio, icon: "⏰" },
+    ],
+  },
 ];
+
+// flattens the array of APPS into an object for fast lookup, since folders can be nested indefinitely
+function buildRegistry(apps: App[]): Record<string, App> {
+  const registry: Record<string, App> = {};
+
+  function register(app: App) {
+    if (app.id in registry) throw new Error(`Duplicate app id: ${app.id}`);
+    registry[app.id] = app;
+    app.containsApps?.forEach(register);
+  }
+
+  apps.forEach(register);
+  return registry;
+}
+
+export const APP_REGISTRY: Record<string, App> = buildRegistry(APPS);

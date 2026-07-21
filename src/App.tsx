@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Window from "./Window";
-import { APPS, type App as AppType } from "./apps";
+import { APP_REGISTRY, APPS, type App as AppType } from "./apps";
 
 import "./App.css";
 import Desktop from "./Desktop";
@@ -92,7 +92,7 @@ function App() {
   }
 
   function getWindowComponent(id: string): React.ComponentType {
-    const app = APPS.find((app) => app.id === id);
+    const app = APP_REGISTRY[id];
     if (!app) throw new Error("App not found");
     return app.component;
   }
