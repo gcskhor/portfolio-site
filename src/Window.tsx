@@ -29,9 +29,13 @@ export default function Window({
   const pointerOffset = useRef({ x: 0, y: 0 });
   const resizeOffset = useRef({ x: 0, y: 0 });
 
+  function handleFocus() {
+    onFocus(id);
+  }
+
   function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
     setIsDragging(true);
-    onFocus(id);
+    handleFocus();
     e.currentTarget.setPointerCapture(e.pointerId);
     pointerOffset.current = {
       x: e.clientX - pos.x,
@@ -99,6 +103,7 @@ export default function Window({
             overflow: "hidden",
             zIndex: zIndex,
           }}
+          onMouseDown={handleFocus}
         >
           <div
             style={{
