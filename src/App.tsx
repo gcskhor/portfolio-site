@@ -22,13 +22,16 @@ const SIZE_DEFAULT = {
   h: 250,
 };
 
+const POS_X_OFFSET = 30;
+const POS_Y_OFFSET = 30;
+
 function App() {
   const [windows, setWindows] = useState<WindowState[]>([
     {
       id: APPS[0].id,
       title: APPS[0].title,
-      pos: { x: 40, y: 40 },
-      size: { w: 400, h: 200 },
+      pos: POS_DEFAULT,
+      size: SIZE_DEFAULT,
     },
   ]);
 
@@ -49,16 +52,26 @@ function App() {
     setWindowOrder((prev) => prev.filter((x) => x !== id));
   }
 
+  function offsetPos(count: number): { x: number; y: number } {
+    const offsetX = count * POS_X_OFFSET;
+    const offsetY = count * POS_Y_OFFSET;
+    return {
+      x: POS_DEFAULT.x + offsetX,
+      y: POS_DEFAULT.y + offsetY,
+    };
+  }
+
   function handleOpenApp(app: AppType): void {
     setWindows((prev) => {
       const target = prev.find((w) => w.id === app.id);
       if (target) return prev;
+      const windowPos = offsetPos(prev.length);
       return [
         ...prev,
         {
           id: app.id,
           title: app.title,
-          pos: POS_DEFAULT,
+          pos: windowPos,
           size: SIZE_DEFAULT,
         },
       ];
