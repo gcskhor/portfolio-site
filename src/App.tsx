@@ -1,13 +1,25 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Window from "./Window";
+import { type App as AppType } from "./apps";
 
 import "./App.css";
+import Desktop from "./Desktop";
 
 type WindowState = {
   id: string;
   title: string;
   pos: { x: number; y: number };
   size: { w: number; h: number };
+};
+
+const POS_DEFAULT = {
+  x: 120,
+  y: 100,
+};
+
+const SIZE_DEFAULT = {
+  w: 400,
+  h: 250,
 };
 
 function App() {
@@ -44,24 +56,27 @@ function App() {
     setWindowOrder((prev) => prev.filter((x) => x !== id));
   }
 
-  function handleAddWindow(title: string) {
-    const id = crypto.randomUUID();
-    setWindows((prev) => [
-      ...prev,
-      {
-        id,
-        pos: {
-          x: 120,
-          y: 100,
+  function handleOpenApp(app: AppType): void {
+    setWindows((prev) => {
+      const target = prev.find((w) => w.id === app.id);
+      if (target) return prev;
+      return [
+        ...prev,
+        {
+          id: app.id,
+          title: app.title,
+          pos: POS_DEFAULT,
+          size: SIZE_DEFAULT,
         },
-        title,
-        size: {
-          w: 400,
-          h: 250,
-        },
-      },
-    ]);
-    setWindowOrder((prev) => [...prev, id]);
+      ];
+    });
+
+    setWindowOrder((prev) => {
+      const target = prev.find((wId) => wId === app.id);
+      const rest = prev.filter((wId) => wId !== app.id);
+      if (target) return [...rest, target];
+      return [...prev, app.id];
+    });
   }
 
   function handleResize(id: string, size: { w: number; h: number }) {
@@ -80,13 +95,7 @@ function App() {
           overflow: "clip",
         }}
       >
-        <button
-          onClick={() => {
-            handleAddWindow(`window ${crypto.randomUUID().slice(0, 10)}`);
-          }}
-        >
-          New Window
-        </button>
+        <Desktop onOpenApp={handleOpenApp} />
         {windows.map((window) => (
           <Window
             id={window.id}
