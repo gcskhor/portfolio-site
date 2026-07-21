@@ -1,10 +1,12 @@
-import { APPS, type App as AppType } from "./apps";
-import DesktopApp from "./DesktopApp";
+import { type App as AppType } from "./apps";
+import AppIcon from "./AppIcon";
 
-export default function Desktop({
+export default function AppGrid({
+  apps,
   onOpenApp,
 }: {
   onOpenApp: (app: AppType) => void;
+  apps: AppType[];
 }) {
   return (
     <div
@@ -18,8 +20,8 @@ export default function Desktop({
         gridTemplateRows: "repeat(auto-fill, 80px)",
       }}
     >
-      {APPS.map((app) => (
-        <DesktopApp key={app.id} app={app} onOpenApp={onOpenApp} />
+      {apps.map((app) => (
+        <AppIcon key={app.id} app={app} onOpenApp={onOpenApp} />
       ))}
     </div>
   );

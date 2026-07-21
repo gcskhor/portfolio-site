@@ -1,6 +1,6 @@
 import { type App } from "./apps";
 
-export default function DesktopApp({
+export default function AppIcon({
   app,
   onOpenApp,
 }: {

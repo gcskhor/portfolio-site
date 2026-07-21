@@ -3,7 +3,7 @@ import Window from "./Window";
 import { APP_REGISTRY, APPS, type App as AppType } from "./apps";
 
 import "./App.css";
-import Desktop from "./Desktop";
+import AppGrid from "./AppGrid";
 
 type WindowState = {
   id: string;
@@ -107,7 +107,7 @@ function App() {
           overflow: "clip",
         }}
       >
-        <Desktop onOpenApp={handleOpenApp} />
+        <AppGrid apps={APPS} onOpenApp={handleOpenApp} />
         {windows.map((window) => {
           const AppComponent = getWindowComponent(window.id);
           return (
