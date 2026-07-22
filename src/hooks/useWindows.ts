@@ -28,7 +28,7 @@ export function useWindows(apps: AppType[]) {
       id: app.id,
       title: app.title,
       pos: POS_DEFAULT,
-      size: SIZE_DEFAULT,
+      size: app.defaultSize || SIZE_DEFAULT,
     })),
   );
 
@@ -71,7 +71,7 @@ export function useWindows(apps: AppType[]) {
           id: app.id,
           title: app.title,
           pos: windowPos,
-          size: SIZE_DEFAULT,
+          size: app.defaultSize || SIZE_DEFAULT,
         },
       ];
     });

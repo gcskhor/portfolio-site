@@ -1,6 +1,7 @@
 import AboutMe from "./apps/AboutMe";
 import Folder from "./apps/Folder";
 import Portfolio from "./apps/Portfolio";
+import { type Size } from "./types";
 
 export type App = {
   title: string;
@@ -11,10 +12,17 @@ export type App = {
   }>;
   icon: string;
   containsApps?: App[];
+  defaultSize?: Size;
 };
 
 export const APPS: App[] = [
-  { title: "About Me", id: "am", component: AboutMe, icon: "😂" },
+  {
+    title: "About Me",
+    id: "am",
+    component: AboutMe,
+    icon: "😂",
+    defaultSize: { w: 700, h: 500 },
+  },
   { title: "Portfolio", id: "pf", component: Portfolio, icon: "🥹" },
   { title: "Terminal", id: "term", component: AboutMe, icon: "🖥️" },
   { title: "Files", id: "files", component: Portfolio, icon: "📁" },
