@@ -1,14 +1,15 @@
 import { useRef, useState } from "react";
+import { type Position, type Size } from "./types";
 
 type WindowProps = {
   id: string;
   title: string;
-  pos: { x: number; y: number };
-  size: { w: number; h: number };
-  onMove: (id: string, pos: { x: number; y: number }) => void;
+  pos: Position;
+  size: Size;
+  onMove: (id: string, pos: Position) => void;
   onFocus: (id: string) => void;
   onClose: (id: string) => void;
-  onResize: (id: string, size: { w: number; h: number }) => void;
+  onResize: (id: string, size: Size) => void;
   children: React.ReactNode;
   zIndex: number;
 };
@@ -26,8 +27,8 @@ export default function Window({
   zIndex,
 }: WindowProps) {
   const [isDragging, setIsDragging] = useState(false);
-  const pointerOffset = useRef({ x: 0, y: 0 });
-  const resizeOffset = useRef({ x: 0, y: 0 });
+  const pointerOffset = useRef<Position>({ x: 0, y: 0 });
+  const resizeOffset = useRef<Position>({ x: 0, y: 0 });
 
   function handleFocus() {
     onFocus(id);

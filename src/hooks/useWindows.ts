@@ -1,19 +1,20 @@
 import { type App as AppType } from "../apps";
 import { useState } from "react";
+import { type Position, type Size } from "../types";
 
 type WindowState = {
   id: string;
   title: string;
-  pos: { x: number; y: number };
-  size: { w: number; h: number };
+  pos: Position;
+  size: Size;
 };
 
-const POS_DEFAULT = {
+const POS_DEFAULT: Position = {
   x: 120,
   y: 100,
 };
 
-const SIZE_DEFAULT = {
+const SIZE_DEFAULT: Size = {
   w: 400,
   h: 250,
 };
@@ -35,7 +36,7 @@ export function useWindows(apps: AppType[]) {
     apps.map((app) => app.id),
   ); // last item in array is displayed on top
 
-  function handleMove(id: string, pos: { x: number; y: number }) {
+  function handleMove(id: string, pos: Position) {
     setWindows((prev) => {
       return prev.map((w) => (w.id === id ? { ...w, pos } : w));
     });
@@ -50,7 +51,7 @@ export function useWindows(apps: AppType[]) {
     setWindowOrder((prev) => prev.filter((x) => x !== id));
   }
 
-  function offsetPos(count: number): { x: number; y: number } {
+  function offsetPos(count: number): Position {
     const offsetX = count * POS_X_OFFSET;
     const offsetY = count * POS_Y_OFFSET;
     return {
@@ -83,7 +84,7 @@ export function useWindows(apps: AppType[]) {
     });
   }
 
-  function handleResize(id: string, size: { w: number; h: number }) {
+  function handleResize(id: string, size: Size) {
     setWindows((prev) => {
       return prev.map((w) => (w.id === id ? { ...w, size } : w));
     });
