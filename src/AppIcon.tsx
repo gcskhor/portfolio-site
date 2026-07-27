@@ -20,7 +20,7 @@ export default function AppIcon({
         onOpenApp(app);
       }}
     >
-      <div>{app.icon}</div>
+      <div style={{ fontSize: "42px", lineHeight: 1 }}>{app.icon}</div>
       <div>{app.title}</div>
     </div>
   );
