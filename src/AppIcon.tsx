@@ -9,18 +9,12 @@ export default function AppIcon({
 }) {
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-        cursor: "pointer",
-      }}
+      className="flex cursor-pointer flex-col items-center text-center"
       onDoubleClick={() => {
         onOpenApp(app);
       }}
     >
-      <div style={{ fontSize: "42px", lineHeight: 1 }}>{app.icon}</div>
+      <div className="text-[42px] leading-none">{app.icon}</div>
       <div>{app.title}</div>
     </div>
   );

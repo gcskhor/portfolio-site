@@ -9,18 +9,7 @@ export default function AppGrid({
   apps: AppType[];
 }) {
   return (
-    <div
-      style={{
-        display: "grid",
-        height: "100%",
-        width: "100%",
-        gap: "16px",
-        justifyContent: "start",
-        gridAutoFlow: "column",
-        gridAutoColumns: "80px",
-        gridTemplateRows: "repeat(auto-fill, 80px)",
-      }}
-    >
+    <div className="grid h-full w-full auto-cols-[80px] grid-flow-col grid-rows-[repeat(auto-fill,80px)] justify-start gap-4">
       {apps.map((app) => (
         <AppIcon key={app.id} app={app} onOpenApp={onOpenApp} />
       ))}
