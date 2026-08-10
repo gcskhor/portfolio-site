@@ -9,7 +9,7 @@ export default function AppGrid({
   apps: AppType[];
 }) {
   return (
-    <div className="grid h-full w-full auto-cols-[80px] grid-flow-col grid-rows-[repeat(auto-fill,80px)] justify-start gap-4">
+    <div className="grid h-full w-full auto-cols-[80px] grid-flow-col grid-rows-[repeat(auto-fill,80px)] justify-start gap-4 p-4">
       {apps.map((app) => (
         <AppIcon key={app.id} app={app} onOpenApp={onOpenApp} />
       ))}
