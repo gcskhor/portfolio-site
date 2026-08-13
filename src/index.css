@@ -1,38 +1,87 @@
 @import "tailwindcss";
 
-/* Dark theme tokens. A light theme is not implemented yet — these are
-   unconditional so the desktop chrome renders dark regardless of OS setting.
-   Adding one means moving these into `@theme inline` and pointing them at
-   per-mode vars, so a `.dark` class can flip them at runtime. */
-@theme {
-  --color-desktop-bg: #14151d;
-  --color-window-body: #282b39;
-  --color-title-bar: #333648;
-  --color-window-border: rgba(119, 147, 240, 0.55);
-  --color-fg: #e9e9ed;
-  --color-heading: #f6f7fb;
-  --color-muted: #9ea2b4;
-  --color-divider: #3d4152;
-  --color-chip-bg: #3a3e50;
-  --color-chip-text: #d6d8e2;
-  --color-chip-border: #4c5064;
-  --color-accent: #7793f0;
-  --color-code-bg: #1f2028;
+/* Makes Tailwind's `dark:` variant key off a `.dark` class on <html> instead
+   of the OS media query, so a manual toggle can drive it. */
+@custom-variant dark (&:where(.dark, .dark *));
 
-  --shadow-window: 0 18px 46px rgba(0, 0, 0, 0.62);
+/* Theme tokens. `inline` makes utilities compile to the raw `var(--x)`,
+   resolved at the element that uses them. Without it, Tailwind emits
+   `:root { --color-x: var(--x) }` and the utility reads `--color-x` — which
+   resolves at :root and only inherits its finished value downward. That still
+   works while `.dark` sits on <html> (same element as :root), but breaks the
+   moment the class moves to a descendant, and rules out theming a subtree.
+   Utility names are unchanged (`bg-window-body`, `text-muted`, …) — only what
+   they resolve to flips. */
+@theme inline {
+  --color-desktop-bg: var(--desktop-bg);
+  --color-window-body: var(--window-body);
+  --color-title-bar: var(--title-bar);
+  --color-window-border: var(--window-border);
+  --color-fg: var(--fg);
+  --color-heading: var(--heading);
+  --color-muted: var(--muted);
+  --color-divider: var(--divider);
+  --color-chip-bg: var(--chip-bg);
+  --color-chip-text: var(--chip-text);
+  --color-chip-border: var(--chip-border);
+  --color-accent: var(--accent);
+  --color-code-bg: var(--code-bg);
+
+  --shadow-window: var(--shadow);
 
   --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
   --font-heading: system-ui, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, Consolas, monospace;
 }
 
+/* Light palette — the default when no `.dark` class is present. */
+:root {
+  --desktop-bg: #e8eaf3;
+  --window-body: #ffffff;
+  --title-bar: #f5f6fc;
+  --window-border: rgba(63, 99, 200, 0.5);
+  --fg: #2a2c37;
+  --heading: #141620;
+  --muted: #6b6f80;
+  --divider: #e4e7f5;
+  --chip-bg: #eef0f8;
+  --chip-text: #3f424d;
+  --chip-border: #d7dbec;
+  --accent: #3f63c8;
+  --code-bg: #eef0f8;
+  --shadow:
+    0 16px 36px rgba(30, 32, 50, 0.16), 0 2px 8px rgba(30, 32, 50, 0.08);
+
+  color-scheme: light;
+}
+
+/* Dark palette. Must come after :root — `.dark` and `:root` have equal
+   specificity, so source order is what lets these win. */
+.dark {
+  --desktop-bg: #14151d;
+  --window-body: #282b39;
+  --title-bar: #333648;
+  --window-border: rgba(119, 147, 240, 0.55);
+  --fg: #e9e9ed;
+  --heading: #f6f7fb;
+  --muted: #9ea2b4;
+  --divider: #3d4152;
+  --chip-bg: #3a3e50;
+  --chip-text: #d6d8e2;
+  --chip-border: #4c5064;
+  --accent: #7793f0;
+  --code-bg: #1f2028;
+  --shadow: 0 18px 46px rgba(0, 0, 0, 0.62);
+
+  color-scheme: dark;
+}
+
 :root {
   font-family: var(--font-sans);
   line-height: 145%;
   letter-spacing: 0.18px;
-  color-scheme: dark;
-  color: var(--color-fg);
-  background: var(--color-desktop-bg);
+  color: var(--fg);
+  background: var(--desktop-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -52,7 +101,7 @@
   h2 {
     font-family: var(--font-heading);
     font-weight: 500;
-    color: var(--color-heading);
+    color: var(--heading);
   }
 
   h1 {
@@ -82,13 +131,13 @@
     font-family: var(--font-mono);
     display: inline-flex;
     border-radius: 4px;
-    color: var(--color-heading);
+    color: var(--heading);
   }
 
   code {
     font-size: 15px;
     line-height: 135%;
     padding: 4px 8px;
-    background: var(--color-code-bg);
+    background: var(--code-bg);
   }
 }

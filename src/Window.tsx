@@ -115,7 +115,7 @@ export default function Window({
           </div>
           <div className="text-fg flex-1 overflow-auto p-2">{children}</div>
           <div
-            className="absolute right-0 bottom-0 h-4 w-4 cursor-nwse-resize touch-none bg-[linear-gradient(135deg,transparent_50%,var(--color-muted)_50%)]"
+            className="absolute right-0 bottom-0 h-4 w-4 cursor-nwse-resize touch-none bg-[linear-gradient(135deg,transparent_50%,var(--muted)_50%)]"
             onPointerDown={handleResizeDown}
             onPointerMove={handleResizeMove}
             onPointerUp={handleResizeUp}
