@@ -23,7 +23,7 @@ function App() {
 
   return (
     <>
-      <div className="relative h-screen w-screen overflow-clip">
+      <div className="bg-desktop-bg relative h-screen w-screen overflow-clip">
         <AppGrid apps={APPS} onOpenApp={handleOpenApp} />
         {windows.map((window) => {
           const app = getApp(window.id);

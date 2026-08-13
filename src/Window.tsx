@@ -87,7 +87,7 @@ export default function Window({
     <>
       {
         <div
-          className="absolute top-0 left-0 flex flex-col overflow-hidden rounded-md border border-white bg-[#4a5568]"
+          className="border-window-border bg-window-body shadow-window absolute top-0 left-0 flex flex-col overflow-hidden rounded-md border"
           style={{
             transform: `translate3d(${pos.x}px, ${pos.y}px, 0)`,
             width: size.w,
@@ -97,25 +97,25 @@ export default function Window({
           onMouseDown={handleFocus}
         >
           <div
-            className={`flex h-8 touch-none items-center justify-between bg-[#2d3748] px-2 select-none ${
+            className={`border-divider bg-title-bar flex h-8 touch-none items-center justify-between border-b px-2 select-none ${
               isDragging ? "cursor-grabbing" : "cursor-grab"
             }`}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerDown={handlePointerDown}
           >
-            <span className="truncate">{title}</span>
+            <span className="text-heading truncate">{title}</span>
             <div
               onPointerDown={(e) => e.stopPropagation()}
               onClick={handleCloseWindow}
-              className="cursor-pointer select-none"
+              className="text-muted cursor-pointer font-mono select-none"
             >
               [X]
             </div>
           </div>
-          <div className="flex-1 overflow-auto p-2">{children}</div>
+          <div className="text-fg flex-1 overflow-auto p-2">{children}</div>
           <div
-            className="absolute right-0 bottom-0 h-4 w-4 cursor-nwse-resize touch-none bg-[linear-gradient(135deg,transparent_50%,#a0aec0_50%)]"
+            className="absolute right-0 bottom-0 h-4 w-4 cursor-nwse-resize touch-none bg-[linear-gradient(135deg,transparent_50%,var(--color-muted)_50%)]"
             onPointerDown={handleResizeDown}
             onPointerMove={handleResizeMove}
             onPointerUp={handleResizeUp}
