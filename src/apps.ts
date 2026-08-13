@@ -1,6 +1,7 @@
 import AboutMe from "./apps/AboutMe";
 import Folder from "./apps/Folder";
 import Portfolio from "./apps/Portfolio";
+import Settings from "./apps/Settings";
 import { type Size } from "./types";
 
 export type App = {
@@ -45,6 +46,12 @@ export const APPS: App[] = [
         ],
       },
     ],
+  },
+  {
+    title: "Settings",
+    id: "settings",
+    component: Settings,
+    icon: "⚙",
   },
 ];
 
